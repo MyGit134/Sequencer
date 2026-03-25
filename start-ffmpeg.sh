@@ -3,7 +3,8 @@ set -eu
 
 MEDIAMTX_HOST="${MEDIAMTX_HOST:-mediamtx}"
 MEDIAMTX_PORT="${MEDIAMTX_PORT:-8554}"
-RTSP_PATH="${RTSP_PATH:-cam}"
+RTSP_PATH_OPUS="${RTSP_PATH_OPUS:-cam}"
+RTSP_PATH_AAC="${RTSP_PATH_AAC:-cam-aac}"
 
 while true; do
   VIDEO_IN=""
@@ -28,8 +29,11 @@ while true; do
   fi
 
   echo "Starting ffmpeg publisher..."
-  ffmpeg $VIDEO_IN $AUDIO_IN $VIDEO_OPTS $AUDIO_OPTS -f rtsp \
-    "rtsp://${MEDIAMTX_HOST}:${MEDIAMTX_PORT}/${RTSP_PATH}" || true
+  ffmpeg $VIDEO_IN $AUDIO_IN \
+    $VIDEO_OPTS -c:a libopus -f rtsp \
+    "rtsp://${MEDIAMTX_HOST}:${MEDIAMTX_PORT}/${RTSP_PATH_OPUS}" \
+    $VIDEO_OPTS -c:a aac -b:a 128k -f rtsp \
+    "rtsp://${MEDIAMTX_HOST}:${MEDIAMTX_PORT}/${RTSP_PATH_AAC}" || true
   echo "ffmpeg exited. Retrying in 5s..."
   sleep 5
 

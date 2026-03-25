@@ -8,4 +8,5 @@ webrtcAddress: :8889
 paths:
   cam:
     source: publisher
-
+  cam-aac:
+    source: publisher
