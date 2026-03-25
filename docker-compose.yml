@@ -50,17 +50,30 @@ services:
       - "8889:8889"
     restart: unless-stopped
 
-  cam-mic-publisher:
+  cam-video-publisher:
     image: linuxserver/ffmpeg:latest
-    container_name: rch-ffmpeg
+    container_name: rch-ffmpeg-video
     profiles: ["camera"]
     depends_on:
       - mediamtx
     privileged: true
     volumes:
       - /dev:/dev
-      - ./start-ffmpeg.sh:/start-ffmpeg.sh:ro
-    entrypoint: ["/bin/sh", "/start-ffmpeg.sh"]
+      - ./start-video.sh:/start-video.sh:ro
+    entrypoint: ["/bin/sh", "/start-video.sh"]
+    restart: unless-stopped
+
+  mic-publisher:
+    image: linuxserver/ffmpeg:latest
+    container_name: rch-ffmpeg-audio
+    profiles: ["camera"]
+    depends_on:
+      - mediamtx
+    privileged: true
+    volumes:
+      - /dev:/dev
+      - ./start-audio.sh:/start-audio.sh:ro
+    entrypoint: ["/bin/sh", "/start-audio.sh"]
     restart: unless-stopped
 
   novnc:
