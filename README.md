@@ -1,4 +1,4 @@
-﻿```bash
+```bash
 # Начальный доступ (SSH)
 docker compose up -d
 

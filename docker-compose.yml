@@ -1,4 +1,4 @@
-﻿# Remote services bundle (run this on each managed machine)
+# Remote services bundle (run this on each managed machine)
 
 version: "3.9"
 
@@ -60,7 +60,7 @@ services:
     volumes:
       - /dev:/dev
       - ./start-ffmpeg.sh:/start-ffmpeg.sh:ro
-    command: sh /start-ffmpeg.sh
+    entrypoint: ["/bin/sh", "/start-ffmpeg.sh"]
     restart: unless-stopped
 
   novnc:
